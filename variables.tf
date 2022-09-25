@@ -27,8 +27,6 @@ variable "cidr_block_public_1" {
 }
 
 ### APP
-
-
 variable "app_ami" {
   description = "description"
   type        = map(string)
@@ -52,8 +50,6 @@ variable "public_key_1" {
   description = "description"
   default     = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDSqdU2hWH/l1JveinnD9OHgHodV3vQMBWUaO98LPIGvpNmp4t+RqdrZDINMsicFQsMVY1EPqoMkJv0AduZ9Yj2t2vpHDkhSOtYc+EP30zolpo+WWbu3yVaWWDSK7ae/Q8hTldOBKIkj9sS1BATuYGNird7QLMEnuz/7NOmwX8zUUkMJNa1DvvvPuhgFY+io4eBXfbm0Fse7BbavyNBfbCAfeX79Zm6heCRcyQm+XfPKcvuQ7OYTwf7/QTF1+j9ypVIR4gND0OO/sTDEPmW7o8K3yQAwxkpdVZa6zbCYbdjSgvp588JC/07+mUVg1h/yDNFEzyryJyBF7cnOXJroDI0i+z/w0kheG8y3FKOeF4FqAXg3dcD/m1y3oVip6swe8iwQXyh5d5QEfdfwgsfmXzL9OyRVowkADp7J55+cXwCM9pG2kwVlQ8A2OwKIwciipfeeR8mpQUcEU7zBm09hDJnw9ROBh3mZ35rojsCvjht21fIHihQnJLHQ/vIx0AIO6+vg0PqrOSeGlLKfEbWECRHeGSNYlnu0rzG1ZA13DHnm3DZrJzHsBAVfaK4aHbe7W0cyhqFvDhOAuJbX8DByo8FTwdJ/ZJmwljxyXjVlHV7cuNLeIvl6hp7vZAxmoSuOdGK6pykd7IeTZcJXlxqw1uWgaD12unBrL/dB1heaoemJw== arunkrishnaghosh@Aruns-MBP"
 }
-
-
 variable "application" {
   default = "ppro"
 }
@@ -82,8 +78,6 @@ variable "rxd_locales_rds_instance_identifier" {
     "prod" = "ppro-prod"
   }
 }
-
-
 variable "mysql_allocated_storage" {
   description = "description"
   type        = map(string)
@@ -114,10 +108,7 @@ variable "mysql_instance_class" {
   }
 }
 
-
 ### Mysql
-
-
 variable "mysql_db_port" {
   description = "description"
   default     = "3306"
