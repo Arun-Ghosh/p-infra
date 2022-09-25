@@ -25,16 +25,25 @@ jobs:
     - name: Terraform validation
       run: terraform validate
 
-    - name: Terraform validation
+    - name: Terraform workspace list
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: terraform workspace list
 
-    - name: Terraform validation
+    - name: Terraform workspace new
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
       run: terraform workspace new stg
 
-    - name: Terraform validation
+    - name: Terraform workspace select
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: terraform workspace select stg
         
-    - name: Terraform apply
+    - name: Terraform plan
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
