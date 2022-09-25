@@ -2,12 +2,12 @@ name: Terraform Apply
 on:
   push:
     branches:
-      - development
+      - main
   pull_request:
     branches:
-      - development
+      - main
 jobs:
-  terraform_apply:
+  installation:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -22,30 +22,69 @@ jobs:
     - name: Verify Terraform version
       run: terraform --version
 
-    - name: Terraform init
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: terraform init -input=false
+  deploy-stg:
+    runs-on: ubuntu-latest
+    environment: 'stg'
+    needs: installation
+    steps:
+      - name: Terraform init
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform init -input=false
+  
+      - name: Terraform validation
+        run: terraform validate
+  
+      - name: Terraform workspace list
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform workspace list
+  
+      - name: Terraform workspace select
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform workspace select stg
+          
+      - name: Terraform plan
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform plan -no-color -input=false
 
-    - name: Terraform validation
-      run: terraform validate
-
-    - name: Terraform workspace list
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: terraform workspace list
-
-    - name: Terraform workspace select
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: terraform workspace select stg
-        
-    - name: Terraform plan
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: terraform plan -no-color -input=false
-
+  deploy-prod:
+    runs-on: 'ubuntu-latest'
+    environment: 'prod'
+    needs: [installation, deploy-stg]
+    steps:
+      - name: Terraform init
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform init -input=false
+  
+      - name: Terraform validation
+        run: terraform validate
+  
+      - name: Terraform workspace list
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform workspace list
+  
+      - name: Terraform workspace select
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform workspace select prod
+          
+      - name: Terraform plan
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform plan -no-color -input=false
+  
+  
+  
