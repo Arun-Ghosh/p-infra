@@ -1,3 +1,4 @@
+# Terraform apply is not activated. Only till Terraform plan
 
 # Intro
 
