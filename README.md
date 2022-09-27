@@ -47,4 +47,11 @@ region = eu-central-1
 4. Manually create S3 bucket where all the terraform state will be stored. In our case S3 bucket named as `rxd-terraform-state`(check `provider.tf`)
 
 5. Update AMI ID required for EC2 instance
-6. Update the SSM value as per requirement 
+6. Update the SSM value as per requirement from the AWS console
+7. Configure `Git` As CI/CD for terraform done using Github actions
+
+- Go to the repo and in `settings` --> `Environments` --> `New Environment`
+- Create `stg` --> `Environment secrets` --> `Add Secret` add AWS access key and Secret key for Staging Account
+- Create `prod` --> `Environment secrets` --> `Add Secret` add AWS access key and Secret key for Staging Account
+- Also for `prod` add `Required reviewers`add the reviewer (In case of organisation its possible to add group) and in the deployment branches add rulle that only branch name start with some jira ticket ID can be deployed like `NEW-*`
+
