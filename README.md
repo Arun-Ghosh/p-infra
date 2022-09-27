@@ -1,8 +1,8 @@
-
+# Just to let know the CI/CD for terraform don't have Terraform apply. It have only till Terraform plan
 # Intro
 
 environments can be:
-- dev
+
 - stg
 - prod
 
