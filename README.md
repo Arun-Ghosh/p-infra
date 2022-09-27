@@ -1,3 +1,4 @@
+# In git `mater` branch is named as `main`
 # Just to let know the CI/CD for terraform don't have Terraform apply. It have only till Terraform plan
 # Intro
 
